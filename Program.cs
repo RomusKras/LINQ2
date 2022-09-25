@@ -227,14 +227,37 @@ namespace LINQ2
             
         }
 
+        // Список сеансов с указанием названия фильма (join)
+        public static void sessionsList(XDocument doc)
+        {
+            var rez = from session in doc.Descendants("Сеанс")
+                      join film in doc.Descendants("Фильм")
+                        on session.Attribute("ID_Фильма").Value equals film.Attribute("id").Value
+                      select new
+                      {
+                          name = film.Attribute("Название").Value,
+                          duration = film.Element("Издание").Attribute("Длительность").Value,
+                          date = session.Attribute("Дата").Value,
+                          time = session.Attribute("Время").Value,
+                      };
+
+            foreach (var r in rez)
+            {
+                // Выводим места
+                Console.WriteLine("Сеанс " + r.date + " " + r.time + " на фильм " + r.name + ", который идет "+r.duration+" минут");
+
+            }
+        }
+
         static void Main(string[] args)
         {
             // Создаем XML, чтобы было с чем работать
             //createXML("C:/Users/romus/Desktop/Cinema.xml");
             XDocument xmlDoc = XDocument.Load("C:/Users/romus/Desktop/Cinema.xml");
             // 3 часть задания
-            closedPlaces(xmlDoc);
-
+            //closedPlaces(xmlDoc);
+            // 4
+            sessionsList(xmlDoc);
 
 
         }
