@@ -8,7 +8,8 @@ namespace LINQ2
     class Program
     {
 
-        public static void createXML (string path) {
+        public static void createXML(string path)
+        {
             XDocument xmlDoc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"),
                 new XComment("Кино"),
@@ -168,13 +169,13 @@ namespace LINQ2
         {
             Console.WriteLine("Данные о занятых местах по сеансам: ");
             var groups = from sessions in doc.Descendants("Сеансы")
-                      from session in sessions.Elements("Сеанс")
-                      from places in session.Elements("Места")
-                      from place in places.Elements("Место")
-                      where place.Attribute("Занято").Value == "1"
-                      group place by session;
+                         from session in sessions.Elements("Сеанс")
+                         from places in session.Elements("Места")
+                         from place in places.Elements("Место")
+                         where place.Attribute("Занято").Value == "1"
+                         group place by session;
 
-            
+
 
             foreach (var group in groups)
             {
@@ -188,7 +189,7 @@ namespace LINQ2
                 }
                 Console.WriteLine("Итого: " + count + " занятых мест по сеансу");
             }
-            
+
         }
 
         // Список сеансов с указанием названия фильма (join)
@@ -208,7 +209,7 @@ namespace LINQ2
             foreach (var r in rez)
             {
                 // Выводим места
-                Console.WriteLine("Сеанс " + r.date + " " + r.time + " на фильм " + r.name + ", который идет "+r.duration+" минут");
+                Console.WriteLine("Сеанс " + r.date + " " + r.time + " на фильм " + r.name + ", который идет " + r.duration + " минут");
 
             }
         }
@@ -216,11 +217,22 @@ namespace LINQ2
         //5. Сеансы, на которые число занятых мест было более «…» (XPath)
         static void sessionsWithClosedPlaces(XDocument doc, int closedPlaces)
         {
-            var rez = doc.XPathSelectElements("//Сеансы/Сеанс[count(Места/Место[@Занято='1'])>"+ closedPlaces + "]");
+            var rez = doc.XPathSelectElements("//Сеансы/Сеанс[count(Места/Место[@Занято='1'])>" + closedPlaces + "]");
 
             foreach (var r in rez)
             {
-                Console.WriteLine("- " + r);
+                var tempPlaces = r.Descendants("Место");
+                int closedPlacesCount = 0;
+                int placesCount = 0;
+                foreach (var c in tempPlaces)
+                {
+                    if (c.Attribute("Занято").Value == "1")
+                    {
+                        closedPlacesCount++;
+                    }
+                    placesCount++;
+                }
+                Console.WriteLine("- Дата сеанса " + r.Attribute("Дата").Value + ", время " + r.Attribute("Время").Value + ", мест занято " + closedPlacesCount + " из " + placesCount);
             }
         }
 
