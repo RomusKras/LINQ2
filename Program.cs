@@ -202,24 +202,29 @@ namespace LINQ2
         //  Данные о занятых местах, сгруппированные по сеансам. 
         public static void closedPlaces(XDocument doc)
         {
+            Console.WriteLine("Данные о занятых местах по сеансам: ");
             var groups = from sessions in doc.Descendants("Сеансы")
                       from session in sessions.Elements("Сеанс")
                       from places in session.Elements("Места")
                       from place in places.Elements("Место")
                       where place.Attribute("Занято").Value == "1"
-                      group session by session;
+                      group place by session;
+
+            
 
             foreach (var group in groups)
             {
-                Console.WriteLine("Сеанс " + group.Key);
-                //XElement test = r.Element("Автор");
-                //Console.WriteLine("Название: " + r.Attribute("название") + ", Автор: " + test.Attribute("Фамилия") + " " + test.Attribute("Имя"));
+                int count = 0;
+                Console.WriteLine("=======");
+                Console.WriteLine("Сеанс " + group.Key.Attribute("Дата").Value + " " + group.Key.Attribute("Время").Value);
                 foreach (var gr in group)
                 {
-                    //Console.WriteLine("Строка в группе = " + gr);
-
+                    Console.WriteLine("Место #" + gr.Attribute("Номер").Value);
+                    count++;
                 }
+                Console.WriteLine("Итого: " + count + " занятых мест по сеансу");
             }
+            
         }
 
         static void Main(string[] args)
