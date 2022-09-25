@@ -5,80 +5,108 @@ namespace LINQ2
 {
     class Program
     {
-        static void Main(string[] args)
-        {
+
+        public static void createXML (string path) {
             XDocument xmlDoc =
             new XDocument(
             new XDeclaration("1.0", "utf-8", "yes"),
             new XComment("Кино"),
             new XElement("Кинотеатры",
 
-           // new XElement("Кинотеатр Мелодия", 
+                new XElement("Кинотеатр", new XAttribute("Название", "Мелодия"),
 
+                    new XElement("Сеансы",
 
-            new XElement("книга", new XAttribute("название", "Мяу"),
-            new XElement("Автор",
-            new XAttribute("Фамилия", "Мордвинова"),
-            new XAttribute("Имя", "Варвара"),
-            new XAttribute("Отчество", "Дмитриевна")
+                        new XElement("Сеанс",
+                            new XAttribute("Дата", "19.09.2022"),
+                            new XAttribute("Время", "08:00"),
+                            new XAttribute("Цена_билета", "250"),
+                            new XAttribute("ID_Фильма", "1"),
+                            new XAttribute("Мест", "30"),
+                            new XAttribute("Занято_мест", "22")
+                        ),
+                        new XElement("Сеанс",
+                            new XAttribute("Дата", "19.09.2022"),
+                            new XAttribute("Время", "10:00"),
+                            new XAttribute("Цена_билета", "270"),
+                            new XAttribute("ID_Фильма", "2"),
+                            new XAttribute("Мест", "30"),
+                            new XAttribute("Занято_мест", "12")
+                        ),
+                        new XElement("Сеанс",
+                            new XAttribute("Дата", "19.09.2022"),
+                            new XAttribute("Время", "13:00"),
+                            new XAttribute("Цена_билета", "300"),
+                            new XAttribute("ID_Фильма", "3"),
+                            new XAttribute("Мест", "30"),
+                            new XAttribute("Занято_мест", "29")
+                        ),
+                        new XElement("Сеанс",
+                            new XAttribute("Дата", "19.09.2022"),
+                            new XAttribute("Время", "15:00"),
+                            new XAttribute("Цена_билета", "270"),
+                            new XAttribute("ID_Фильма", "1"),
+                            new XAttribute("Мест", "30"),
+                            new XAttribute("Занято_мест", "27")
+                        ),
+                        new XElement("Сеанс",
+                            new XAttribute("Дата", "19.09.2022"),
+                            new XAttribute("Время", "18:00"),
+                            new XAttribute("Цена_билета", "270"),
+                            new XAttribute("ID_Фильма", "2"),
+                            new XAttribute("Мест", "30"),
+                            new XAttribute("Занято_мест", "25")
+                        )
+
+                    )
+
+                 )
+
             ),
 
-            new XElement("Издание",
-            new XAttribute("Наименование_Издательства", "Pavuk"),
-            new XAttribute("Год_Издания", "2022"),
-            new XAttribute("Количество_Страниц", "123"),
-            new XAttribute("Цена", "1000")
+            new XElement("Фильмы",
+                new XElement("Фильм", new XAttribute("Название", "Чужой"), new XAttribute("id", "1"),
+                    new XElement("Режиссер",
+                        new XAttribute("Фамилия", "Скотт"),
+                        new XAttribute("Имя", "Ридли")
+                    ),
+                    new XElement("Издание",
+                        new XAttribute("Год", "1979"),
+                        new XAttribute("Длительность", "116")
+                    )
+                ),
+                new XElement("Фильм", new XAttribute("Название", "Аватар"), new XAttribute("id", "2"),
+                    new XElement("Режиссер",
+                        new XAttribute("Фамилия", "Кэмерон"),
+                        new XAttribute("Имя", "Джеймс")
+                    ),
+                    new XElement("Издание",
+                        new XAttribute("Год", "2009"),
+                        new XAttribute("Длительность", "162")
+                    )
+                ),
+                new XElement("Фильм", new XAttribute("Название", "Назад в будущее"), new XAttribute("id", "3"),
+                    new XElement("Режиссер",
+                        new XAttribute("Фамилия", "Земекис"),
+                        new XAttribute("Имя", "Роберт")
+                    ),
+                    new XElement("Издание",
+                        new XAttribute("Год", "1985"),
+                        new XAttribute("Длительность", "116")
+                    )
+                )
             )
-            ),
 
-            new XElement("книга", new XAttribute("название", "Вишневый сад"),
-            new XElement("Автор",
-            new XAttribute("Фамилия", "Красовский"),
-            new XAttribute("Имя", "Роман"),
-            new XAttribute("Отчество", "Валерьевич")
-            ),
-
-            new XElement("Издание",
-            new XAttribute("Наименование_Издательства", "Лотос"),
-            new XAttribute("Год_Издания", "2016"),
-            new XAttribute("Количество_Страниц", "40"),
-            new XAttribute("Цена", "500")
-            )
-            ),
-
-            new XElement("книга", new XAttribute("название", "Война и мир"),
-            new XElement("Автор",
-            new XAttribute("Фамилия", "Толстой"),
-            new XAttribute("Имя", "Лев"),
-            new XAttribute("Отчество", "Николаевич")
-            ),
-
-            new XElement("Издание",
-            new XAttribute("Наименование_Издательства", "Миф"),
-            new XAttribute("Год_Издания", "1998"),
-            new XAttribute("Количество_Страниц", "400"),
-            new XAttribute("Цена", "1500")
-            )
-            ),
-
-            new XElement("книга", new XAttribute("название", "Герой нашего времени"),
-            new XElement("Автор",
-            new XAttribute("Фамилия", "Лермонтов"),
-            new XAttribute("Имя", "Михаил"),
-            new XAttribute("Отчество", "Юрьевич")
-            ),
-
-            new XElement("Издание",
-            new XAttribute("Наименование_Издательства", "Эпос"),
-            new XAttribute("Год_Издания", "2004"),
-            new XAttribute("Количество_Страниц", "120"),
-            new XAttribute("Цена", "800")
-            )
-            )
-
-            )
             );
-            xmlDoc.Save("C:/Users/romus/Desktop/Cinema.xml");
+            xmlDoc.Save(path);
+        }
+
+        static void Main(string[] args)
+        {
+            // Создаем XML, чтобы было с чем работать
+            createXML("C:/Users/romus/Desktop/Cinema.xml");
+
+
         }
     }
 }
