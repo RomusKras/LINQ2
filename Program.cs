@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Xml.Linq;
 
 namespace LINQ2
@@ -161,10 +162,74 @@ namespace LINQ2
             xmlDoc.Save(path);
         }
 
+        static void NameAndAuthorWithPrice(XDocument doc, int price)
+        {
+            //Console.WriteLine(doc);
+            var rez = from book in doc.Descendants("книга")
+                      from izdanie in book.Elements("Издание")
+                      from author in book.Elements("Автор")
+                      where (int)izdanie.Attribute("Цена") <= price
+                      select new
+                      {
+                          name = book.Attribute("название").Value,
+                          fstname = book.Element("Автор").Attribute("Имя").Value,
+                          lstname = book.Element("Автор").Attribute("Фамилия").Value,
+                      };
+
+            foreach (var r in rez)
+            {
+                Console.WriteLine("Название: " + r.name + ", Автор: " + r.lstname + " " + r.fstname);
+            }
+        }
+
+        static void SumPriceFromDistrubutor(XDocument doc, String distributor)
+        {
+            //Console.WriteLine(doc);
+            var rez1 = from book in doc.Descendants("книга")
+                       from izdanie in book.Elements("Издание")
+                       where izdanie.Attribute("Наименование_Издательства").Value == distributor
+                       select int.Parse(izdanie.Attribute("Цена").Value);
+            int sum = rez1.Sum();
+
+            foreach (var r in rez1)
+            {
+                Console.WriteLine("Цена = " + r);
+                //XElement test = r.Element("Автор");
+                //Console.WriteLine("Название: " + r.Attribute("название") + ", Автор: " + test.Attribute("Фамилия") + " " + test.Attribute("Имя"));
+            }
+        }
+
+        //  Данные о занятых местах, сгруппированные по сеансам. 
+        public static void closedPlaces(XDocument doc)
+        {
+            var groups = from sessions in doc.Descendants("Сеансы")
+                      from session in sessions.Elements("Сеанс")
+                      from places in session.Elements("Места")
+                      from place in places.Elements("Место")
+                      where place.Attribute("Занято").Value == "1"
+                      group session by session;
+
+            foreach (var group in groups)
+            {
+                Console.WriteLine("Сеанс " + group.Key);
+                //XElement test = r.Element("Автор");
+                //Console.WriteLine("Название: " + r.Attribute("название") + ", Автор: " + test.Attribute("Фамилия") + " " + test.Attribute("Имя"));
+                foreach (var gr in group)
+                {
+                    //Console.WriteLine("Строка в группе = " + gr);
+
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
             // Создаем XML, чтобы было с чем работать
-            createXML("C:/Users/romus/Desktop/Cinema.xml");
+            //createXML("C:/Users/romus/Desktop/Cinema.xml");
+            XDocument xmlDoc = XDocument.Load("C:/Users/romus/Desktop/Cinema.xml");
+            // 3 часть задания
+            closedPlaces(xmlDoc);
+
 
 
         }
