@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace LINQ2
 {
@@ -249,6 +250,17 @@ namespace LINQ2
             }
         }
 
+        //5. Сеансы, на которые число занятых мест было более «…» (XPath)
+        static void BookOfРages(XDocument doc, int closedPlaces)
+        {
+            var rez = doc.XPathSelectElements("//Сеансы/Сеанс[count(Места/Место[@Занято='1'])>"+ closedPlaces + "]");
+
+            foreach (var r in rez)
+            {
+                Console.WriteLine("- " + r);
+            }
+        }
+
         static void Main(string[] args)
         {
             // Создаем XML, чтобы было с чем работать
@@ -257,7 +269,9 @@ namespace LINQ2
             // 3 часть задания
             //closedPlaces(xmlDoc);
             // 4
-            sessionsList(xmlDoc);
+            //sessionsList(xmlDoc);
+            // 5
+            BookOfРages(xmlDoc, 6);
 
 
         }
