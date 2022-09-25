@@ -251,7 +251,7 @@ namespace LINQ2
         }
 
         //5. Сеансы, на которые число занятых мест было более «…» (XPath)
-        static void BookOfРages(XDocument doc, int closedPlaces)
+        static void sessionsWithClosedPlaces(XDocument doc, int closedPlaces)
         {
             var rez = doc.XPathSelectElements("//Сеансы/Сеанс[count(Места/Место[@Занято='1'])>"+ closedPlaces + "]");
 
@@ -271,7 +271,7 @@ namespace LINQ2
             // 4
             //sessionsList(xmlDoc);
             // 5
-            BookOfРages(xmlDoc, 6);
+            sessionsWithClosedPlaces(xmlDoc, 6);
 
 
         }
